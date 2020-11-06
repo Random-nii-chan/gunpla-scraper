@@ -19,4 +19,4 @@ class Kit :
         self.imageLink = imageLink
 
     def __str__(self):
-        return f'{self.grade}-{self.number} : {self.model}, from {self.series}, released {self.releaseDate}, priced at {self.yenPrice} yen. {self.notes}'
+        return f'{self.grade}-{self.number} : {self.model}, from {self.series}, released {self.releaseDate}, priced at {self.yenPrice} yen. {self.notes}\n.\n{self.imageLink}'

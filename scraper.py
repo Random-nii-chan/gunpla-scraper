@@ -25,7 +25,6 @@ for y in years :
     for k in kits :
         # WebElements contenant les valeurs
         attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
-        attributesAsElements = attributesAsElements[:len(attributesAsElements)-2] #removing the last 2 elements to prevent the MSJoints and included hands
 
         # Valeurs encodées en tant que strings
         attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
@@ -34,7 +33,7 @@ for y in years :
         except :
             attributes[0] = "N/A"
 
-        attributes[3] = int(re.sub("[^0-9]+","", attributes[3]))
+        attributes[3] = int(re.sub("[^0-9A-Za-z]+","", attributes[3]))
 
         # fetching image
         try :
@@ -43,7 +42,6 @@ for y in years :
             imageLink = "No Image Provided"
         
         kit = Kit(attributes, imageLink, "RG")
-
         print(kit)
         print("--------")
 
