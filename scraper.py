@@ -39,8 +39,6 @@ for table in tables :
                 attributes[0] = re.search("^[0-9a-zA-Z-\\/]+",attributes[0]).group(0)
             except :
                 attributes[0] = "N/A"
-            # converting price to int
-            attributes[3] = int(re.sub("[^0-9A-Za-z]+","", attributes[3]))
             # fetching image
             try :
                 imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()

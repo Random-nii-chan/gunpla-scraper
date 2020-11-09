@@ -13,10 +13,10 @@ class Kit :
         self.number = args[0]
         self.model = args[1]
         self.series = args[2]
-        self.yenPrice = args[3]
+        self.price = args[3]
         self.releaseDate = args[4]
         self.notes = args[5]
         self.imageLink = imageLink
 
     def __str__(self):
-        return f'{self.grade}-{self.number} : {self.model}, from {self.series}, released {self.releaseDate}, priced at {self.yenPrice} yen. {self.notes}\n{self.imageLink}'
+        return f'{self.grade}-{self.number} : {self.model}, from {self.series}, released {self.releaseDate}, priced at {self.price} yen. {self.notes}\n{self.imageLink}'
