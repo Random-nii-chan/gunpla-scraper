@@ -12,7 +12,6 @@ driver = webdriver.Firefox(options=headless)
 
 driver.get("https://gundam.fandom.com/wiki/Real_Grade#Regulars_and_Special_Editions")
 tables =  driver.find_elements(By.CSS_SELECTOR,".tabber.tabberlive")
-print(len(tables))
 
 for table in tables :
     years = table.find_elements(By.CSS_SELECTOR, "ul.tabbernav>li>a")

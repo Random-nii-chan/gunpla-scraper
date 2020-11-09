@@ -12,8 +12,9 @@ headless = Options()
 headless.headless = True
 driver = webdriver.Firefox(options=headless)
 
-driver.get("https://gundam.fandom.com/wiki/Real_Grade#Regulars_and_Special_Editions")
+driver.get("https://gundam.fandom.com/wiki/Real_Grade")
 
+# bypassing cookies prompt window
 wait = WebDriverWait(driver,10)
 cookieAcceptation = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,'div.NN0_TB_DIsNmMHgJWgT7U.XHcr6qf5Sub2F2zBJ53S_')))
 cookieAcceptation.click()
