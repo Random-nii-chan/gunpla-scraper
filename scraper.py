@@ -3,6 +3,8 @@ from kit import Kit
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 
 # set selenium browser as headless firefox
@@ -10,36 +12,43 @@ headless = Options()
 headless.headless = True
 driver = webdriver.Firefox(options=headless)
 
-driver.get("https://gundam.fandom.com/wiki/Real_Grade#Regulars_and_Special_Editions")
+driver.get("https://gundam.fandom.com/wiki/Real_Grade")
+
+# bypassing cookies prompt window
+wait = WebDriverWait(driver,10)
+cookieAcceptation = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,'div.NN0_TB_DIsNmMHgJWgT7U.XHcr6qf5Sub2F2zBJ53S_')))
+cookieAcceptation.click()
+
+# getting all tables
 tables =  driver.find_elements(By.CSS_SELECTOR,".tabber.tabberlive")
 
 for table in tables :
     years = table.find_elements(By.CSS_SELECTOR, "ul.tabbernav>li>a")
     # getting years as strings
-    years = map(lambda l : l.text, years)
+    years = list(map(lambda l : l.text, years))
     for y in years : 
         # fetching all kits for this year
         kits = table.find_elements(By.CSS_SELECTOR,f'div.tabbertab[title=\"{str(y)}\"] tr:nth-child(n+2)')
         for k in kits :
-            # WebElements contenant les valeurs
+            # WebElements containing values
             attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
-
-            # Valeurs encodées en tant que strings
+            # Encoding values as strings
             attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
+            # check if a valid kit ID exists
             try:
                 attributes[0] = re.search("^[0-9a-zA-Z-\\/]+",attributes[0]).group(0)
             except :
                 attributes[0] = "N/A"
-
+            # converting price to int
             attributes[3] = int(re.sub("[^0-9A-Za-z]+","", attributes[3]))
-
             # fetching image
             try :
                 imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
             except NoSuchElementException :
                 imageLink = "No Image Provided"
-            
+
             kit = Kit(attributes, imageLink, "RG")
+
             print(kit)
             print("--------")
             
