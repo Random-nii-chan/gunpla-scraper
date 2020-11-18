@@ -73,7 +73,7 @@ def scrape(driver,id_manager,grade,scale,url,variation,series):
                     )
                     all_kits.append(kit.json())
                 else:
-                    #series column is present
+                    #series column is not present
                     # fetching image
                     try :
                         imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
