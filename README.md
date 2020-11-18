@@ -26,4 +26,4 @@ Install the project's dependencies using `python -m pip install -r requirements.
 
 ## Run!
 
-Simply run the program using `python ./scraper.py` and watch the magic happen!
+Simply run the program using `python ./full_scraper.py` and watch the magic happen!
