@@ -46,11 +46,13 @@ for table in tables :
                 imageLink = None
             # extracting year of release
             try : 
-                attributes[4] = int(re.search("\d{4}$",attributes[4]).group(0))
+                attributes[4] = int(re.search("\\d{4}",attributes[4]).group(0))
             except :
                 attributes[4] = 1970
+            # Checking if model is p-bandai
+            isPbandai = "p-bandai" in attributes[5].lower()
 
-            kit = Kit(attributes, imageLink, "RG", "1/144")
+            kit = Kit(attributes, imageLink, "RG", "1/144",isPbandai)
 
             print(kit.json())
             print("--------")
