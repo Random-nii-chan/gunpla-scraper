@@ -1,6 +1,6 @@
-class id_manager :
+class IdManager :
 
-    def __init__(self,start):
+    def __init__(self,start=0):
         self.initial_id = 0
         self.current_id = self.initial_id
 
