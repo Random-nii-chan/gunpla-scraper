@@ -1,4 +1,4 @@
-import re
+from re import search
 from kit import Kit
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -43,11 +43,16 @@ for table in tables :
             try :
                 imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
             except NoSuchElementException :
-                imageLink = "No Image Provided"
+                imageLink = None
+            # extracting year of release
+            try : 
+                attributes[4] = int(re.search("\d{4}$",attributes[4]).group(0))
+            except :
+                attributes[4] = 1970
 
-            kit = Kit(attributes, imageLink, "RG")
+            kit = Kit(attributes, imageLink, "RG", "1/144")
 
-            print(kit)
+            print(kit.json())
             print("--------")
             
 driver.quit()
