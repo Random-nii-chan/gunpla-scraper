@@ -16,7 +16,7 @@ def bypass_cookies(driver) :
         pass
 
 
-def scrape(driver,id_manager,grade,scale,url,variation):
+def scrape(driver,id_manager,grade,scale,url,variation,series):
     print(f'Scraping {grade}({scale}) {variation} kits from {url}...')
 
     driver.get(url)
@@ -43,21 +43,62 @@ def scrape(driver,id_manager,grade,scale,url,variation):
                 attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
                 # Encoding values as strings
                 attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
-                # fetching image
-                try :
-                    imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
-                except NoSuchElementException :
-                    imageLink = None
-                # extracting year of release
-                try : 
-                    attributes[4] = int(re.search("\\d{4}",attributes[4]).group(0))
-                except :
-                    attributes[4] = None
-                # Checking if model is p-bandai
-                isPbandai = "p-bandai" in attributes[5].lower()
+                if len(attributesAsElements) == 6:
+                    #series column is present
+                    # fetching image
+                    try :
+                        imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
+                    except NoSuchElementException :
+                        imageLink = None
+                    # extracting year of release
+                    try : 
+                        releaseYear = int(re.search("\\d{4}",attributes[4]).group(0))
+                    except :
+                        releaseYear = None
 
-                kit = Kit(id_manager.next_id(), attributes, imageLink, grade, scale,isPbandai,variation)
-                all_kits.append(kit.json())
+                    # Checking if model is p-bandai
+                    isPbandai = "p-bandai" in attributes[5].lower()
+
+                    kit = Kit(
+                        id_manager.next_id(), 
+                        attributes[1], #model
+                        attributes[2], #series
+                        releaseYear, 
+                        attributes[5], #notes
+                        imageLink, 
+                        grade, 
+                        scale,
+                        isPbandai,
+                        variation
+                    )
+                    all_kits.append(kit.json())
+                else:
+                    #series column is present
+                    # fetching image
+                    try :
+                        imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
+                    except NoSuchElementException :
+                        imageLink = None
+                    try : 
+                        releaseYear = int(re.search("\\d{4}",attributes[3]).group(0))
+                    except :
+                        releaseYear = None
+                    # Checking if model is p-bandai
+                    isPbandai = "p-bandai" in attributes[4].lower()
+                    kit = Kit(
+                        id_manager.next_id(), 
+                        attributes[1], #model
+                        series, #series
+                        releaseYear, 
+                        attributes[4], #notes
+                        imageLink, 
+                        grade, 
+                        scale,
+                        isPbandai,
+                        variation
+                    )
+                    all_kits.append(kit.json())
+                        
                 
     print(f'Done. Fetched {len(all_kits)} kits.')
     return driver,id_manager,all_kits
