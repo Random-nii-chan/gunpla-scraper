@@ -12,7 +12,7 @@ Back in 2016, [CircuitFreak](https://github.com/circuitfreak/) created a gunpla 
 
 However, 5 years later, Wikia (now Fandom) drastically changed their web page structure. Moreover, CircuitFreak's API only gathered info about Master Grades : I wanted to create a new, better written scraper that could list kits that aren't Master Grades.
 
-Moreover, CircuitFreak's API is no longer active : I plan on using 
+Moreover, CircuitFreak's API is no longer active : I plan on using my webscraper's results to feed an API that I will create in the future. 
 
 # How to use the web scraper
 
