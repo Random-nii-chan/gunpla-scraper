@@ -1,4 +1,5 @@
-from re import search
+import re
+import json
 from kit import Kit
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -34,11 +35,6 @@ for table in tables :
             attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
             # Encoding values as strings
             attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
-            # check if a valid kit ID exists
-            try:
-                attributes[0] = re.search("^[0-9a-zA-Z-\\/]+",attributes[0]).group(0)
-            except :
-                attributes[0] = "N/A"
             # fetching image
             try :
                 imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
@@ -52,9 +48,6 @@ for table in tables :
             # Checking if model is p-bandai
             isPbandai = "p-bandai" in attributes[5].lower()
 
-            kit = Kit(attributes, imageLink, "RG", "1/144",isPbandai)
-
-            print(kit.json())
-            print("--------")
+            kit = Kit(attributes, imageLink, "RG", "1/144",isPbandai).json()
             
 driver.quit()
