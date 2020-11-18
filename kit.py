@@ -26,7 +26,7 @@ class Kit :
         root = {"id":self.id,"grade":self.grade,"release_year":self.releaseYear,"name":self.model,"p-bandai":self.pbandai,"info":{"scale":self.scale,"series":self.series,"notes":self.notes}}
         link = [self.imageLink] if self.imageLink != None else []
         root["info"]["image_link"] = link
-        if self.variation == None :
+        if self.variation != None :
             root["variation"] = self.variation
         return root
 

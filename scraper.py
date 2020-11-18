@@ -17,7 +17,7 @@ def bypass_cookies(driver) :
 
 
 def scrape(driver,id_manager,grade,scale,url,variation):
-    print(f'Scraping {grade}({scale}) kits from {url}...')
+    print(f'Scraping {grade}({scale}) {variation} kits from {url}...')
 
     driver.get(url)
     bypass_cookies(driver)
@@ -30,9 +30,14 @@ def scrape(driver,id_manager,grade,scale,url,variation):
         years = table.find_elements(By.CSS_SELECTOR, "ul.tabbernav>li>a")
         # getting years as strings
         years = list(map(lambda l : l.text, years))
-        for y in years : 
+        for y in years :
             # fetching all kits for this year
-            kits = table.find_elements(By.CSS_SELECTOR,f'div.tabbertab[title=\"{str(y)}\"] tr:nth-child(n+2)')
+            try :
+                # failsafe mechanism to prevent skipping of first kit in case of table header in <thead>
+                table.find_element(By.TAG_NAME,f'div.tabbertab[title=\"{str(y)}\"] thead')
+                kits = table.find_elements(By.CSS_SELECTOR,f'div.tabbertab[title=\"{str(y)}\"] tbody tr')
+            except NoSuchElementException :
+                kits = table.find_elements(By.CSS_SELECTOR,f'div.tabbertab[title=\"{str(y)}\"] tr:nth-child(n+2)')
             for k in kits :
                 # WebElements containing values
                 attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
