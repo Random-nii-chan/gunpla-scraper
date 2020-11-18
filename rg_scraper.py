@@ -45,8 +45,7 @@ def scrape(driver,id_manager):
                 # Checking if model is p-bandai
                 isPbandai = "p-bandai" in attributes[5].lower()
 
-                kit = Kit(attributes, imageLink, "RG", "1/144",isPbandai)
-                kit.id = id_manager.next_id()
+                kit = Kit(id_manager.next_id(), attributes, imageLink, "RG", "1/144",isPbandai)
                 all_kits.append(kit.json())
                 
     print("Done.")

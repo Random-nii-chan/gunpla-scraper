@@ -8,7 +8,7 @@ class Kit :
     notes
     """
 
-    def __init__(self, args, imageLink, grade, scale, pbandai):
+    def __init__(self, id, args, imageLink, grade, scale, pbandai):
         self.grade = grade
         self.number = args[0]
         self.model = args[1]
@@ -19,9 +19,10 @@ class Kit :
         self.imageLink = imageLink
         self.scale = scale
         self.pbandai = pbandai
+        self.id = id
         
     def json(self):
-        root = {"id":"test","grade":self.grade,"release_year":self.releaseYear,"name":self.model,"p-bandai":self.pbandai,"info":{"scale":self.scale,"series":self.series,"notes":self.notes}}
+        root = {"id":self.id,"grade":self.grade,"release_year":self.releaseYear,"name":self.model,"p-bandai":self.pbandai,"info":{"scale":self.scale,"series":self.series,"notes":self.notes}}
         link = [self.imageLink] if self.imageLink != None else []
         root["image_links"] = link
         return root
