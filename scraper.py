@@ -9,7 +9,7 @@ all_kits = []
 
 driver,manager,all_kits = rg_scrape(driver,manager)
 
-with open("rg.json","w") as outfile :
+with open("output.json","w") as outfile :
     json.dump(all_kits,outfile)
 
 print("webscraping done !")
