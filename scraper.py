@@ -43,7 +43,7 @@ def scrape(driver,id_manager,grade,scale,url,variation,series):
                 attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
                 # Encoding values as strings
                 attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
-                if len(attributesAsElements) == 6:
+                if len(attributesAsElements) >= 6:
                     #series column is present
                     # fetching image
                     try :
