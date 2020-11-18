@@ -12,7 +12,9 @@ def bypass_cookies(driver) :
     cookieAcceptation.click()
 
 def scrape(driver,id_manager):
-    driver.get("https://gundam.fandom.com/wiki/Real_Grade")
+    url = "https://gundam.fandom.com/wiki/Real_Grade"
+    print("Scraping kits from "+url+"...")
+    driver.get(url)
     bypass_cookies(driver)
     all_kits = []
 
@@ -47,4 +49,5 @@ def scrape(driver,id_manager):
                 kit.id = id_manager.next_id()
                 all_kits.append(kit.json())
                 
+    print("Done.")
     return driver,id_manager,all_kits
