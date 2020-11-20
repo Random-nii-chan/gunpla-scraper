@@ -31,9 +31,9 @@ class Kit :
             "release-year":self.releaseYear,
             "name":self.model,
             "p-bandai":self.pbandai,
+            "series":self.series,
             "info":{
-                "scale":self.scale,
-                "series":self.series
+                "scale":self.scale
             }
         }
         if self.notes != "" : root["info"]["notes"] = self.notes
