@@ -20,13 +20,13 @@ props = [
     {"grade":"HG","variation":"Gundam 00","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Gundam_00"},
     {"grade":"HG","variation":"AGE","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Gundam_AGE"},
     {"grade":"HG","variation":"Gundam SEED","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Gundam_SEED"},
-    {"grade":"HG","variation":"Build Divers Re:RISE","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Build_Divers_Re:RISE","series":"Gundam Build Divers Re:RISE"},
+    {"grade":"HG","variation":"Build Divers Re:RISE","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Build_Divers_Re:RISE"},
     {"grade":"HG","variation":"Petit'gguy","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Petit%27gguy"},
     {"grade":"HG","variation":"Gundam The Origin","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Gundam_The_Origin"},
     {"grade":"HG","variation":"Build Fighters","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Build_Fighters"},
-    {"grade":"HG","variation":"Build Divers","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Build_Divers","series":"Gundam Build Divers"},
-    {"grade":"HG","variation":"IRON-BLOODED ORPHANS","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_IRON-BLOODED_ORPHANS","series":"Mobile Suit Gundam IRON-BLOODED ORPHANS"},
-    {"grade":"HG","variation":"Fighting Action Endless Waltz Series","scale":"1/144","url":"https://gundam.fandom.com/wiki/1/144_High_Grade_Fighting_Action_Endless_Waltz_Series","series":"New Mobile Report Gundam Wing: Endless Waltz"},
+    {"grade":"HG","variation":"Build Divers","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Build_Divers"},
+    {"grade":"HG","variation":"IRON-BLOODED ORPHANS","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_IRON-BLOODED_ORPHANS"},
+    {"grade":"HG","variation":"Fighting Action Endless Waltz Series","scale":"1/144","url":"https://gundam.fandom.com/wiki/1/144_High_Grade_Fighting_Action_Endless_Waltz_Series"},
     {"grade":"Hi-res","scale":"1/100","url":"https://gundam.fandom.com/wiki/Hi-Resolution_Model"}
 ]
 
