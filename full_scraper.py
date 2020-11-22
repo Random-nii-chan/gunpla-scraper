@@ -13,6 +13,7 @@ def export_json(data,filename) :
 
 
 props = [
+    {"grade":"Haropla","url":"https://gundam.fandom.com/wiki/Haropla"},
     {"grade":"RG","scale":"1/144","url":"https://gundam.fandom.com/wiki/Real_Grade"},
     {"grade":"MG","scale":"1/100","url":"https://gundam.fandom.com/wiki/Master_Grade"},
     {"grade":"RE/100","scale":"1/100","url":"https://gundam.fandom.com/wiki/Reborn-One_Hundred"},
@@ -27,8 +28,13 @@ props = [
     {"grade":"HG","variation":"Build Fighters","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Build_Fighters"},
     {"grade":"HG","variation":"Build Divers","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Build_Divers"},
     {"grade":"HG","variation":"IRON-BLOODED ORPHANS","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_IRON-BLOODED_ORPHANS"},
+    {"grade":"HG","variation":"Build Divers Re:RISE","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Build_Divers_Re:RISE"},
+    {"grade":"HG","variation":"Reconguista in G","scale":"1/144","url":"https://gundam.fandom.com/wiki/High_Grade_Reconguista_in_G"},
     {"grade":"HG","variation":"Fighting Action Endless Waltz Series","scale":"1/144","url":"https://gundam.fandom.com/wiki/1/144_High_Grade_Fighting_Action_Endless_Waltz_Series"},
-    {"grade":"Hi-res","scale":"1/100","url":"https://gundam.fandom.com/wiki/Hi-Resolution_Model"}
+    {"grade":"Hi-res","scale":"1/100","url":"https://gundam.fandom.com/wiki/Hi-Resolution_Model"},
+    {"grade":"SD","variation":"Cross Silhouette","url":"https://gundam.fandom.com/wiki/SD_Gundam_Cross_Silhouette"},
+    {"grade":"SD","variation":"BB Senshi","url":"https://gundam.fandom.com/wiki/SD_Gundam_BB_Senshi"},
+    {"grade":"SD","variation":"Ex-Standard","url":"https://gundam.fandom.com/wiki/SD_Gundam_EX-Standard"}
 ]
 
 driver = sm.make_driver()
@@ -37,13 +43,11 @@ all_kits = []
 
 for p in props :
     kits = []
-    driver,manager,kits = scrape(driver,manager,p["grade"],p["scale"],p["url"],p["variation"] if "variation" in p else None)
+    driver,manager,kits = scrape(driver,manager,p["grade"],p["scale"] if "scale" in p else None,p["url"],p["variation"] if "variation" in p else None)
     all_kits+=kits
     time.sleep(1)
 
 driver.quit()
-
-export_json(isolate(all_kits),"series.json")
 
 export_json(all_kits,"output.json")
 

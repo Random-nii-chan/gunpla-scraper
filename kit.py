@@ -31,7 +31,7 @@ class Kit :
             "release-year":self.releaseYear,
             "name":self.model,
             "p-bandai":self.pbandai,
-            "series":self.series,
+            "series":self.series if self.series != "N/A" else None,
             "info":{
                 "scale":self.scale
             }

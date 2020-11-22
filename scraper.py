@@ -17,7 +17,7 @@ def bypass_cookies(driver) :
 
 
 def scrape(driver,id_manager,grade,scale,url,variation):
-    print(f'Scraping {grade}({scale}) {variation} kits from {url}...')
+    print(f'Scraping {grade}({scale}) {variation if variation!=None else ""} kits from {url}...')
 
     driver.get(url)
     bypass_cookies(driver)
