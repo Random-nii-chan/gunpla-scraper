@@ -36,7 +36,7 @@ all_kits = []
 
 for p in props :
     kits = []
-    driver,manager,kits = scrape(driver,manager,p["grade"],p["scale"],p["url"],p["variation"] if "variation" in p else None,p["series"] if "series" in p else None)
+    driver,manager,kits = scrape(driver,manager,p["grade"],p["scale"],p["url"],p["variation"] if "variation" in p else None)
     all_kits+=kits
     time.sleep(1)
 
