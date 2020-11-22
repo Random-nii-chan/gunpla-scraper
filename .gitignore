@@ -141,3 +141,4 @@ cython_debug/
 
 # webscraper results
 output.json
+series.json

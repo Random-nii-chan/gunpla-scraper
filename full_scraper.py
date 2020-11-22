@@ -1,8 +1,9 @@
 from scraper import scrape
 import selenium_maker as sm
+from id_manager import IdManager as IDM
+from series_isolator import isolate
 import json
 import time
-from id_manager import IdManager as IDM
 
 def export_json(data,filename) :
     print("Exporting outputs as "+filename+"...")
@@ -40,8 +41,10 @@ for p in props :
     all_kits+=kits
     time.sleep(1)
 
-export_json(all_kits,"output.json")
-
 driver.quit()
+
+export_json(isolate(all_kits),"series.json")
+
+export_json(all_kits,"output.json")
 
 print("webscraping done !")
