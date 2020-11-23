@@ -6,9 +6,8 @@ class Series:
         self.wikiLink = wikiLink
 
     def json(self):
-        root = {
-            "id":{self.id},
-            "name":{self.name},
-            "wiki-link":{self.name}
+        return {
+            "id":self.id,
+            "name":self.name,
+            "wiki-link":self.wikiLink
         }
-        return root

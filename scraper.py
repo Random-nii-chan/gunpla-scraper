@@ -1,23 +1,24 @@
 import re
-from kit import Kit
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
+from kit import Kit
 
 def bypass_cookies(driver) :
     # bypassing cookies prompt window
     try :
-        wait = WebDriverWait(driver,5)
+        wait = WebDriverWait(driver,1)
         cookieAcceptation = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,'div.NN0_TB_DIsNmMHgJWgT7U.XHcr6qf5Sub2F2zBJ53S_')))
         cookieAcceptation.click()
+        print("Cookies passed!")
     except TimeoutException:
-        pass
+        print("Cookies input not passed.")
 
 
 def scrape(driver,id_manager,grade,scale,url,variation):
-    print(f'Scraping {grade}({scale}) {variation if variation!=None else ""} kits from {url}...')
+    print(f'Scraping {grade}({scale}){" "+variation if variation!=None else ""} kits from {url}...')
 
     driver.get(url)
     bypass_cookies(driver)
@@ -43,7 +44,6 @@ def scrape(driver,id_manager,grade,scale,url,variation):
                 attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
                 # Encoding values as strings
                 attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
-                #series column is present
                 # fetching image
                 try :
                     imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
