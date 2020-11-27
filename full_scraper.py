@@ -5,7 +5,6 @@ from selenium.webdriver.firefox.options import Options
 from id_manager import IdManager as IDM
 from scraper import scrape
 from scraper import bypass_cookies
-from series_isolator import isolate
 from target import Target
 
 def export_json(data,filename) :

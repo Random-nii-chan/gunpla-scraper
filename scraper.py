@@ -17,7 +17,7 @@ def bypass_cookies(driver) :
         print("Cookies input not passed.")
 
 def scrape(driver,id_manager,target):
-    print(f'Scraping {target.grade}({target.scale}) {target.variation} kits from {target.url}...')
+    print(f'Scraping kits from {target.url}...')
 
     driver.get(target.url)
     bypass_cookies(driver)

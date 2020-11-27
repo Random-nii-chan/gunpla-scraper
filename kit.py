@@ -39,8 +39,6 @@ class Kit :
                 "scale":self.__scale
             }
         }
-        if self.__series != None : 
-            root["series-link"] = self.__series_to_wiki_link()
         if self.__notes != "" : root["info"]["notes"] = self.__notes
         if self.__imageLink != None : root["info"]["image-link"] = self.__imageLink 
         if self.__variation != None : root["info"]["variation"] = self.__variation  
