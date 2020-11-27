@@ -1,10 +1,12 @@
 import json
 import time
-from selenium_maker import SeleniumMaker
-from id_manager import IdManager
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from id_manager import IdManager as IDM
 from scraper import scrape
 from scraper import bypass_cookies
 from series_isolator import isolate
+from target import Target
 
 def export_json(data,filename) :
     print("Exporting outputs as "+filename+"...")
@@ -12,58 +14,46 @@ def export_json(data,filename) :
         json.dump(data,outfile)
     print("Finished exporting.")
 
-def target(grade,url,scale=None,variation=None):
-    root = {
-        "grade": grade,
-        "url": url
-    }
-    if scale != None:
-        root["scale"] = scale
-    if variation != None:
-        root["variation"] = variation
-    return root
+def make_driver(hl):
+    print("Creating headless firefox browser...")
+    headless = Options()
+    headless.headless = hl
+    wd = webdriver.Firefox(options=headless)
+    print("Done.")
+    return wd
 
 # commented fetch_targets are waiting for wiki modification
+# self,grade,url,scale=None,variation=None
 targets = [
-    # create_fetch_target(grade="SD",variation="Ex-Standard",url="https://gundam.fandom.com/wiki/SD_Gundam_EX-Standard"),
-    target(grade="Haropla",url="https://gundam.fandom.com/wiki/Haropla"),
-    target(grade="RG",scale="1/144",url="https://gundam.fandom.com/wiki/Real_Grade"),
-    target(grade="MG",scale="1/100",url="https://gundam.fandom.com/wiki/Master_Grade"),
-    target(grade="RE/100",scale="1/100",url="https://gundam.fandom.com/wiki/Reborn-One_Hundred"),
-    target(grade="PG",scale="1/60",url="https://gundam.fandom.com/wiki/Perfect_Grade"),
-    target(grade="HG",variation="Universal Century",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Universal_Century"),
-    target(grade="HG",variation="Gundam 00",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Gundam_00"),
-    target(grade="HG",variation="AGE",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Gundam_AGE"),
-    target(grade="HG",variation="Gundam SEED",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Gundam_SEED"),
-    target(grade="HG",variation="Build Divers Re:RISE",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Build_Divers_Re:RISE"),
-    target(grade="HG",variation="Petit'gguy",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Petit%27gguy"),
-    target(grade="HG",variation="Gundam The Origin",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Gundam_The_Origin"),
-    target(grade="HG",variation="Build Divers",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Build_Divers"),
-    target(grade="HG",variation="IRION-BLOODED ORPHANS",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_IRON-BLOODED_ORPHANS"),
-    target(grade="HG",variation="Reconguista in G",scale="1/144",url="https://gundam.fandom.com/wiki/High_Grade_Reconguista_in_G"),
-    target(grade="HG",variation="Fighting Action Endless Waltz Series",scale="1/144",url="https://gundam.fandom.com/wiki/1/144_High_Grade_Fighting_Action_Endless_Waltz_Series"),
-    target(grade="Hi-res",scale="1/100",url="https://gundam.fandom.com/wiki/Hi-Resolution_Model"),
-    target(grade="SD",variation="Cross Silouhette",url="https://gundam.fandom.com/wiki/SD_Gundam_Cross_Silhouette"),
-    target(grade="SD",variation="BB Senshi",url="https://gundam.fandom.com/wiki/SD_Gundam_BB_Senshi")
+    Target("Haropla","https://gundam.fandom.com/wiki/Haropla"),
+    Target("RG","https://gundam.fandom.com/wiki/Real_Grade","1/144"),
+    Target("MG","https://gundam.fandom.com/wiki/Master_Grade","1/100"),
+    Target("RE/100","https://gundam.fandom.com/wiki/Reborn-One_Hundred","1/100"),
+    Target("PG","https://gundam.fandom.com/wiki/Perfect_Grade","1/60"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Universal_Century","1/144","Universal Century"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Gundam_00","1/144","Gundam 00"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Gundam_AGE","1/144","AGE"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Gundam_SEED","1/144","Gundam SEED"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Build_Divers_Re:RISE","1/144"," Build Divers Re:RISE"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Petit%27gguy",variation="Petit'gguy"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Gundam_The_Origin","1/144","Gundam The Origin"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Build_Divers","1/144","Build Divers"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_IRON-BLOODED_ORPHANS","1/144","IRON-BLOODED ORPHANS"),
+    Target("HG","https://gundam.fandom.com/wiki/High_Grade_Reconguista_in_G","1/144","Reconguista In G"),
+    Target("HG","https://gundam.fandom.com/wiki/1/144_High_Grade_Fighting_Action_Endless_Waltz_Series","1/144","Fighting Action Endless Waltz Series"),
+    Target("Hi-res","https://gundam.fandom.com/wiki/Hi-Resolution_Model","1/100"),
+    Target("SD","https://gundam.fandom.com/wiki/SD_Gundam_Cross_Silhouette",variation="Cross Silouhette"),
+    Target("SD","https://gundam.fandom.com/wiki/SD_Gundam_BB_Senshi",variation="BB Senshi"),
+    Target("SD","https://gundam.fandom.com/wiki/SD_Gundam_EX-Standard",variation="Ex-Standard")
 ]
 
-sm = SeleniumMaker()
-driver = sm.make_driver()
-
-kit_id_manager = IdManager.get_instance()
-
+driver = make_driver(True)
+kit_id_manager = IDM()
 all_kits = []
 
 for t in targets :
     kits = []
-    driver,kit_id_manager,kits = scrape(
-        driver,
-        kit_id_manager,
-        t["grade"],
-        t["scale"] if "scale" in t else None,
-        t["url"],
-        t["variation"] if "variation" in t else None
-    )
+    driver,kit_id_manager,kits = scrape(driver,kit_id_manager,t)
     all_kits+=kits
     time.sleep(1)
 

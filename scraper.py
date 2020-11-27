@@ -16,11 +16,10 @@ def bypass_cookies(driver) :
     except TimeoutException:
         print("Cookies input not passed.")
 
+def scrape(driver,id_manager,target):
+    print(f'Scraping {target.grade}({target.scale}) {target.variation} kits from {target.url}...')
 
-def scrape(driver,id_manager,grade,scale,url,variation):
-    print(f'Scraping {grade}({scale}){" "+variation if variation!=None else ""} kits from {url}...')
-
-    driver.get(url)
+    driver.get(target.url)
     bypass_cookies(driver)
 
     all_kits = []
@@ -65,10 +64,10 @@ def scrape(driver,id_manager,grade,scale,url,variation):
                     releaseYear, 
                     attributes[5], #notes
                     imageLink, 
-                    grade, 
-                    scale,
+                    target.grade, 
+                    target.scale,
                     isPbandai,
-                    variation
+                    target.variation
                 )
                 all_kits.append(kit.json())
                 

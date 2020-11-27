@@ -13,30 +13,35 @@ class Kit :
         pbandai,
         variation
     ):
-        self.grade = grade
-        self.model = model
-        self.series = series
-        self.releaseYear = release_year
-        self.notes = notes
-        self.imageLink = imageLink
-        self.scale = scale
-        self.pbandai = pbandai
-        self.id = id
-        self.variation = variation
+        self.__grade = grade
+        self.__model = model
+        self.__series = series
+        self.__releaseYear = release_year
+        self.__notes = notes
+        self.__imageLink = imageLink
+        self.__scale = scale
+        self.__pbandai = pbandai
+        self.__id = id
+        self.__variation = variation
         
+    def __series_to_wiki_link(self):
+        return f'https://gundam.fandom.com/wiki/{self.__series.replace(" ","_")}'
+
     def json(self):
         root = {
-            "id":self.id,
-            "grade":self.grade,
-            "release-year":self.releaseYear,
-            "name":self.model,
-            "p-bandai":self.pbandai,
-            "series":self.series if self.series != "N/A" else None,
+            "id":self.__id,
+            "grade":self.__grade,
+            "release-year":self.__releaseYear,
+            "name":self.__model,
+            "p-bandai":self.__pbandai,
+            "series":self.__series if self.__series != "N/A" else None,
             "info":{
-                "scale":self.scale
+                "scale":self.__scale
             }
         }
-        if self.notes != "" : root["info"]["notes"] = self.notes
-        if self.imageLink != None : root["info"]["image-link"] = self.imageLink 
-        if self.variation != None : root["info"]["variation"] = self.variation  
+        if self.__series != None : 
+            root["series-link"] = self.__series_to_wiki_link()
+        if self.__notes != "" : root["info"]["notes"] = self.__notes
+        if self.__imageLink != None : root["info"]["image-link"] = self.__imageLink 
+        if self.__variation != None : root["info"]["variation"] = self.__variation  
         return root
