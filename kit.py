@@ -25,7 +25,7 @@ class Kit :
         self.__variation = variation
         
     def __series_to_wiki_link(self):
-        return f'https://gundam.fandom.com/wiki/{self.__series.replace(" ","_")}'
+        return f'https://gundam.fandom.com/wiki/{self.__series.replace(" ","_")}' if self.__series != None else None
 
     def json(self):
         root = {
@@ -35,6 +35,7 @@ class Kit :
             "name":self.__model,
             "p-bandai":self.__pbandai,
             "series":self.__series if self.__series != "N/A" else None,
+            "series-wiki": self.__series_to_wiki_link(),
             "info":{
                 "scale":self.__scale
             }

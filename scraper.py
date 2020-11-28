@@ -14,7 +14,7 @@ def bypass_cookies(driver) :
         cookieAcceptation.click()
         print("Cookies passed!")
     except TimeoutException:
-        print("Cookies input not passed.")
+        pass
 
 def scrape(driver,id_manager,target):
     print(f'Scraping kits from {target.url}...')
@@ -43,6 +43,7 @@ def scrape(driver,id_manager,target):
                 attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
                 # Encoding values as strings
                 attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
+                # print(attributes)
                 # fetching image
                 try :
                     imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
