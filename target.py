@@ -5,5 +5,3 @@ class Target :
         self.url = url
         self.scale = scale
         self.variation = variation
-
-        #test
