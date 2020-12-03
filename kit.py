@@ -25,22 +25,26 @@ class Kit :
         self.__variation = variation
         
     def __series_to_wiki_link(self):
-        return f'https://gundam.fandom.com/wiki/{self.__series.replace(" ","_")}' if self.__series != None else None
+        if self.__series != None:
+            return f'https://gundam.fandom.com/wiki/{self.__series.replace(" ","_")}'
+        else:
+            return None
 
     def json(self):
-        root = {
+        return {
             "id":self.__id,
-            "grade":self.__grade,
             "release-year":self.__releaseYear,
             "name":self.__model,
             "p-bandai":self.__pbandai,
-            "series":self.__series if self.__series != "N/A" else None,
-            "series-wiki": self.__series_to_wiki_link(),
+            "grade":self.__grade,
+            "scale":self.__scale,
+            "series": {
+                "name":self.__series if self.__series != "N/A" else None,
+                "wiki-link":self.__series_to_wiki_link()
+            },
             "info":{
-                "scale":self.__scale
+                "variation":self.__variation,
+                "notes": self.__notes if self.__notes != "" else None,
+                "image-link":self.__imageLink
             }
         }
-        if self.__notes != "" : root["info"]["notes"] = self.__notes
-        if self.__imageLink != None : root["info"]["image-link"] = self.__imageLink 
-        if self.__variation != None : root["info"]["variation"] = self.__variation  
-        return root
