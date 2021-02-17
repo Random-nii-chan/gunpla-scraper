@@ -6,6 +6,18 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from kit import Kit
 
+def print_progress(cur,total,length,title="In Progress"):
+    done = math.ceil((cur*length)/total)
+    remain = length-done
+
+    done_str = '#'*int(done)
+    remain_str = '.'*int(remain)
+    cur_str = '0'*int(len(str(total))-len(str(cur)))+str(cur)
+
+    print(f'\t⌛ {title}: [{done_str}{remain_str}] {cur_str}/{total} done', end='\r')
+    if total == cur:
+        print('\t✅')
+
 def bypass_cookies(driver) :
     # bypassing cookies prompt window
     try :
