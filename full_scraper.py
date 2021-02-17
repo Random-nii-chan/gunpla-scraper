@@ -54,7 +54,7 @@ for t in targets :
     kits = []
     driver,kit_id_manager,kits = scrape(driver,kit_id_manager,t)
     all_kits+=kits
-    time.sleep(1)
+    time.sleep(0.5)
 
 driver.quit()
 

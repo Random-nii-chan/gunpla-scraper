@@ -7,6 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from kit import Kit
 
+# inspired from https://stackoverflow.com/a/61433559/
 def print_progress(cur,total,length=20,title="In Progress"):
     done = ceil((cur*length)/total)
     remain = length-done
@@ -15,7 +16,7 @@ def print_progress(cur,total,length=20,title="In Progress"):
     remain_str = '-'*int(remain)
     cur_str = '0'*int(len(str(total))-len(str(cur)))+str(cur)
 
-    print(f'\t⌛ {title}: [{done_str}{remain_str}] {cur_str}/{total} done', end='\r')
+    print(f'\t⌛ {title}: [{done_str}{remain_str}] {cur_str}/{total} collected.', end='\r')
     if total == cur:
         print('\t✅')
 
@@ -30,12 +31,14 @@ def bypass_cookies(driver) :
         pass
 
 def scrape(driver,id_manager,target):
+    print("-----")
     print(f'Scraping kits from {target.url}...')
 
     driver.get(target.url)
     bypass_cookies(driver)
 
-    all_kits = []
+    all_kits = [] # used to store dictionaries
+    elements = [] # used to count the kit total
 
     # getting all tables
     tables =  driver.find_elements(By.CSS_SELECTOR,".tabber.tabberlive")
@@ -51,39 +54,44 @@ def scrape(driver,id_manager,target):
                 kits = table.find_elements(By.CSS_SELECTOR,f'div.tabbertab[title=\"{str(y)}\"] tbody tr')
             except NoSuchElementException :
                 kits = table.find_elements(By.CSS_SELECTOR,f'div.tabbertab[title=\"{str(y)}\"] tr:nth-child(n+2)')
-            for k in kits :
-                # WebElements containing values
-                attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
-                # Encoding values as strings
-                attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
-                # print(attributes)
-                # fetching image
-                try :
-                    imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
-                except NoSuchElementException :
-                    imageLink = None
-                # extracting year of release
-                try : 
-                    releaseYear = int(re.search("\\d{4}",attributes[4]).group(0))
-                except :
-                    releaseYear = None
+            for k in kits:
+                elements.append(k)
+    total_kits=len(elements)
+    parsed_kits=0
+    for k in elements :
+        # WebElements containing values
+        attributesAsElements = k.find_elements(By.CSS_SELECTOR,"td")
+        # Encoding values as strings
+        attributes = list(map(lambda element : element.get_attribute('textContent').strip(), attributesAsElements))
+        # print(attributes)
+        # fetching image
+        try :
+            imageLink = attributesAsElements[0].find_element(By.CSS_SELECTOR,"a.image").get_attribute("href").strip()
+        except NoSuchElementException :
+            imageLink = None
+        # extracting year of release
+        try : 
+            releaseYear = int(re.search("\\d{4}",attributes[4]).group(0))
+        except :
+            releaseYear = None
 
-                # Checking if model is p-bandai
-                isPbandai = "p-bandai" in attributes[5].lower()
+        # Checking if model is p-bandai
+        isPbandai = "p-bandai" in attributes[5].lower()
 
-                kit = Kit(
-                    id_manager.next_id(), 
-                    attributes[1], #model
-                    attributes[2], #series
-                    releaseYear, 
-                    attributes[5], #notes
-                    imageLink, 
-                    target.grade, 
-                    target.scale,
-                    isPbandai,
-                    target.variation
-                )
-                all_kits.append(kit.json())
-                
-    print(f'Done. Fetched {len(all_kits)} kits.')
+        kit = Kit(
+            id_manager.next_id(), 
+            attributes[1], #model
+            attributes[2], #series
+            releaseYear, 
+            attributes[5], #notes
+            imageLink, 
+            target.grade, 
+            target.scale,
+            isPbandai,
+            target.variation
+        )
+        all_kits.append(kit.json())
+        parsed_kits+=1
+        print_progress(parsed_kits,total_kits)
+        
     return driver,id_manager,all_kits
