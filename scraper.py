@@ -7,12 +7,12 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from kit import Kit
 
-def print_progress(cur,total,length,title="In Progress"):
+def print_progress(cur,total,length=20,title="In Progress"):
     done = ceil((cur*length)/total)
     remain = length-done
 
     done_str = '#'*int(done)
-    remain_str = '.'*int(remain)
+    remain_str = '-'*int(remain)
     cur_str = '0'*int(len(str(total))-len(str(cur)))+str(cur)
 
     print(f'\t⌛ {title}: [{done_str}{remain_str}] {cur_str}/{total} done', end='\r')
