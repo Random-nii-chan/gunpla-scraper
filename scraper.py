@@ -1,4 +1,5 @@
 import re
+from math import ceil
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,7 +8,7 @@ from selenium.common.exceptions import TimeoutException
 from kit import Kit
 
 def print_progress(cur,total,length,title="In Progress"):
-    done = math.ceil((cur*length)/total)
+    done = ceil((cur*length)/total)
     remain = length-done
 
     done_str = '#'*int(done)
